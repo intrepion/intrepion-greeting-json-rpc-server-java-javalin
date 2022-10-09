@@ -7,8 +7,14 @@ import io.javalin.Javalin;
 
 public class App {
     public static void main(String[] args) {
-        var app = Javalin.create(/*config*/)
-            .get("/", ctx -> ctx.result("Hello World"))
+        var app = Javalin.create(config -> {
+                config.plugins.enableCors(cors -> {
+                    cors.add(it -> {
+                        it.allowHost("http://localhost:3000");
+                    });
+                });
+            })
+            .post("/api", ctx -> ctx.result("Hello World"))
             .start(7070);
     }
 }
